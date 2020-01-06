@@ -5,11 +5,12 @@ import java.io.*;
 public class Terrain {
 
     public byte map[][] = new byte[950][600];
+    File f;
 
     // init Terrain
-    public Terrain() {
+    public Terrain(String file) {
         try {
-            File f = new File("Virtual-Ecosystem/Data/Maps/terrain.csv");
+            f = new File(file);
             BufferedReader bf = new BufferedReader(new FileReader(f));
             String line = bf.readLine();
             int y = 0;

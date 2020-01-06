@@ -3,6 +3,7 @@ package Rendering;
 import javax.swing.*;
 
 import Data.Maps.ItemMap;
+import Data.Maps.World;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -16,11 +17,9 @@ public class Renderer extends JPanel {
     private int width = 500;
     private int height = 500;
     private PixelMap pixelMap;
-    private BufferedImage bi;
-    private BufferStrategy bs;
 
     // init
-    public Renderer(PixelMap pixelMap, int width, int height, ItemMap itemMap) {
+    public Renderer(PixelMap pixelMap, int width, int height, World world) {
 
         // init controls
         this.pixelMap = pixelMap;
@@ -39,7 +38,7 @@ public class Renderer extends JPanel {
             @Override
             public void windowClosing(WindowEvent e) {
                 System.out.print("Saving Information...");
-                itemMap.saveItemMap();
+                world.Save();
                 System.out.print("\tDone!");
                 win.dispose();
                 System.exit(0);

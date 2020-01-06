@@ -5,9 +5,10 @@ import java.io.*;
 public class ItemMap {
 
     public byte[][] map = new byte[950][600];
-    File f = new File("Virtual-Ecosystem/Data/Maps/Items.dat");
+    File f;
 
-    public ItemMap(int width, int height) {
+    public ItemMap(int width, int height, String file) {
+        f = new File(file);
         try {
             if (f.exists() && !f.isDirectory()) {
                 BufferedReader bf = new BufferedReader(new FileReader(f));
