@@ -5,6 +5,8 @@ import java.io.*;
 public class MemberMap {
 
     File f;
+    public String[][] map = new String[650][900];
+    public long MemberCounter = 0;
 
     public MemberMap(String file) {
         f = new File(file);
@@ -15,7 +17,7 @@ public class MemberMap {
                 int y = 0;
                 while (line != null) {
                     for (int i = 0; i < 950; i++) {
-                        // FILL ME WITH CONTENT
+                        //TODO: FILL ME WITH CONTENT
                     }
                     y++;
                     line = bf.readLine();
@@ -29,7 +31,7 @@ public class MemberMap {
                 while (y < 600) {
                     for (int i = 0; i < 950; i++) {
                         // FILL ME WITH CONTENT
-                        bf.write(c);
+                        for(int d = 0; d < 8; d++) bf.write(c);
                     }
                     bf.newLine();
                     y++;

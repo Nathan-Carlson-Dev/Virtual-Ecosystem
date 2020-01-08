@@ -1,0 +1,11 @@
+Definition, Red, Green, Blue, alpha
+null(0eTerrain), 0, 0, 0, 0
+water(3), 0, 0, 255, 255
+sand(2), 255, 255, 0, 255
+ground(1), 0, 255, 0, 255
+Forest(0), 0, 150, 0, 255
+Member(########), 255, 0, 0, 100
+Food 1(1), 0, 0, 0, 255
+Food 2(2), 100, 100, 100, 255
+Water(3), 0, 10, 100, 255
+Poison(4), 100, 0, 100, 255
