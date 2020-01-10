@@ -71,7 +71,7 @@ public class World {
 
     private void drawMemberMap(int x, int y){
         try {
-            if(!memberMap.map[x][y].equals("0")){
+            if(memberMap.map[x][y] != 0){
                 pixelMap.changeColor(x, y, new Color(255, 0, 0, 100));
             }
         } catch (Exception e) {
