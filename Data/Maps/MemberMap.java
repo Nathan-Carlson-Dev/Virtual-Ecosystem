@@ -9,28 +9,36 @@ public class MemberMap {
     public long[][] map = new long[950][600];
     public long MemberCounter = 0;
 
+    // init member map
     public MemberMap(String file) {
         f = new File(file);
-        for(int x = 0; x < 950; x++){
-            for(int y = 0; y < 600; y++){
+        // init map array
+        for (int x = 0; x < 950; x++) {
+            for (int y = 0; y < 600; y++) {
                 map[x][y] = 0;
             }
         }
         try {
+            // splice data into containers of map array
             if (f.exists() && !f.isDirectory()) {
                 BufferedReader bf = new BufferedReader(new FileReader(f));
                 String line = bf.readLine();
-                int y = 0;
-                while (line != null) {
-                    for(int x = 0; x < 950; x++){
-                        byte temp[] = new byte[8];
-                        for(int i = 0; i < 8; i++) temp[i] = (byte) line.charAt(i);
-                    }
-                    y++;
+
+                int x = 0, y = 0;
+                while (y < 600 && line != null) {
+                    byte[] ByteLine = line.getBytes();
+                    byte temp[] = new byte[8];
+                    for (int i = 0; i < 7; i++)
+                        temp[i] = ByteLine[i];
+                    map[x][y] = ByteBuffer.wrap(temp).getLong();
                     line = bf.readLine();
+                    x++;
+                    if (x == 950) {
+                        x = 0;
+                        y++;
+                    }
                 }
                 bf.close();
-
             }
         } catch (Exception e) {
             System.out.println(e);
@@ -38,18 +46,18 @@ public class MemberMap {
         }
     }
 
+    // save member map
     public void saveMemberMap() {
         try {
+            // format and save data in file
             BufferedWriter bf = new BufferedWriter(new FileWriter(f));
             int y = 0;
-            char c = '0';
             while (y < 600) {
-                for (int i = 0; i < 950; i++) {
-                    // FILL ME WITH CONTENT
-                    for (int d = 0; d < 8; d++)
-                        bf.write(c);
+                for (int x = 0; x < 950; x++) {
+                    byte[] temp = ByteBuffer.allocate(8).putLong(map[x][y]).array();
+                    for (int i = 0; i < 8; i++)
+                        bf.write(temp[i]);
                 }
-                bf.newLine();
                 y++;
             }
             bf.close();

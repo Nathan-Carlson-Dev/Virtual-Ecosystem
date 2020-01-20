@@ -7,6 +7,7 @@ public class ItemMap {
     public byte[][] map = new byte[950][600];
     File f;
 
+    // init item map
     public ItemMap(int width, int height, String file) {
         f = new File(file);
         try {
@@ -45,6 +46,7 @@ public class ItemMap {
         }
     }
 
+    // save item map in file
     public void saveItemMap() {
         try {
             BufferedWriter bf = new BufferedWriter(new FileWriter(f));
@@ -74,6 +76,7 @@ public class ItemMap {
         }
     }
 
+    // update map array by generating data
     public void update() {
         for (int y = 0; y < 600; y++) {
             for (int x = 0; x < 950; x++) {
