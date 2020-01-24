@@ -46,9 +46,9 @@ public class World {
     private void drawItemMap(int x, int y) {
         try {
             if (itemMap.map[x][y] == 4)
-                pixelMap.changeColor(x, y, new Color(100, 0, 100));
+                pixelMap.changeColor(x, y, new Color(180, 0, 180));
             if (itemMap.map[x][y] == 3)
-                pixelMap.changeColor(x, y, new Color(0, 10, 100));
+                pixelMap.changeColor(x, y, new Color(10, 100, 150));
             if (itemMap.map[x][y] == 2)
                 pixelMap.changeColor(x, y, new Color(100, 100, 100));
             if (itemMap.map[x][y] == 1)

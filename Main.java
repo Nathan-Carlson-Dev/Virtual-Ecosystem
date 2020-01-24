@@ -1,10 +1,7 @@
-import java.awt.*;
-import java.util.*;
-import java.io.*;
-
-import Rendering.*;
-import Data.Maps.*;
-import Data.Neural.*;
+import Data.Maps.World;
+import Population.Archetypes.Oscillator;
+import Rendering.PixelMap;
+import Rendering.Renderer;
 
 class Main {
 
