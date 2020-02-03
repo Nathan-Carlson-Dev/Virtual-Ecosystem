@@ -1,5 +1,12 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+
 import Data.Maps.World;
-import Population.Archetypes.Oscillator;
+import Population.Population;
+import Population.Archetypes.Incrementor;
 import Rendering.PixelMap;
 import Rendering.Renderer;
 
@@ -11,17 +18,24 @@ class Main {
         int height = 600;
         PixelMap pixelMap = new PixelMap(width, height);
         World w = new World(width, height, pixelMap);
-        Renderer r = new Renderer(pixelMap, width, height, w);
-        Thread Updater = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (true) {
-                    r.update();
-                    w.Update();
-                }
-            }
-        });
-        Updater.start();
+        // Renderer r = new Renderer(pixelMap, width, height, w);
+        // Thread Updater = new Thread(new Runnable() {
+        // @Override
+        // public void run() {
+        // while (true) {
+        // r.update();
+        // w.Update();
+        // }
+        // }
+        // });
+        // Updater.start();
+
+        try {
+            Population p = new Population(90, new int[] { 1, 1, 1 }, true, w.terrain, w.itemMap, w.memberMap);
+            // p.Save();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

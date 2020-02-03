@@ -1,6 +1,8 @@
 package Data.Neural;
 
-public class Layer {
+import java.io.Serializable;
+
+public class Layer implements Serializable {
     public Node[] nodes;
 
     // initialize Layer

@@ -1,8 +1,9 @@
 package Data.Neural;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class Node {
+public class Node implements Serializable {
     public double[] weights;
     public double bias = 0;
 
