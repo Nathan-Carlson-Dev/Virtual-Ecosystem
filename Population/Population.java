@@ -1,5 +1,6 @@
 package Population;
 
+import java.awt.Color;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -11,16 +12,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Data.Maps.ItemMap;
-import Data.Maps.MemberMap;
 import Data.Maps.Terrain;
+import Data.Maps.World;
 import Population.Archetypes.*;
 
 public class Population {
     public List<Prototype> members = new ArrayList<Prototype>(0);
     public int IDIndex = 1;
+    public World world;
 
-    public Population(int initSize, int[] ratio, boolean grabFromSave, Terrain t, ItemMap im, MemberMap m)
+    public Population(int initSize, int[] ratio, boolean grabFromSave, World w)
             throws FileNotFoundException, IOException, ClassNotFoundException {
+        world = w;
+        ItemMap im = w.itemMap;
+        Terrain t = w.terrain;
         if (grabFromSave) {
             int index = IDIndex;
             File saveFile = new File("./MemberSaves/" + Integer.toString(index));
@@ -45,7 +50,7 @@ public class Population {
             for (int i = 0; i < initSize; i++) {
                 try {
                     if (i % ratio[0] == 0) {
-                        Incrementor member = new Incrementor(t, im, m);
+                        Incrementor member = new Incrementor(t, im);
                         member.ID = IDIndex;
                         members.add(member);
                         IDIndex++;
@@ -54,7 +59,7 @@ public class Population {
                 }
                 try {
                     if (i % ratio[1] == 0) {
-                        Reducer member = new Reducer(t, im, m);
+                        Reducer member = new Reducer(t, im);
                         member.ID = IDIndex;
                         members.add(member);
                         IDIndex++;
@@ -63,7 +68,7 @@ public class Population {
                 }
                 try {
                     if (i % ratio[2] == 0) {
-                        Oscillator member = new Oscillator(t, im, m);
+                        Oscillator member = new Oscillator(t, im);
                         member.ID = IDIndex;
                         members.add(member);
                         IDIndex++;
@@ -75,7 +80,15 @@ public class Population {
             }
         }
     }
-
+    
+    public void adjustPopulation(){
+        for (int i = 0; i < members.size(); i++) {
+            Prototype p = members.get(i);
+            p.move();
+            world.pixelMap.changeColor(p.x, p.y, new Color(255, 0, 0, 100));
+        }
+    }
+    
     public void Save() {
         for (int i = 0; i < members.size(); i++) {
             Prototype member = members.get(i);

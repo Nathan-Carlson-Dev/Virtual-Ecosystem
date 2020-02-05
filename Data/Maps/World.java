@@ -10,14 +10,12 @@ public class World {
     public PixelMap pixelMap;
     public ItemMap itemMap;
     public Terrain terrain;
-    public MemberMap memberMap;
 
     // init world
     public World(int width, int height, PixelMap pixelMap) {
         this.pixelMap = pixelMap;
         itemMap = new ItemMap(width, height, (new File(".")).getAbsolutePath() + "/Items.dat");
         terrain = new Terrain((new File(".")).getAbsolutePath() + "/terrain.csv");
-        memberMap = new MemberMap((new File(".")).getAbsolutePath() + "/Members.dat");
     }
 
     // update maps
@@ -31,7 +29,6 @@ public class World {
                 pixelMap.changeColor(x, y, Color.BLACK);
                 drawTerrain(x, y);
                 drawItemMap(x, y);
-                drawMemberMap(x, y);
             }
         }
     }
@@ -39,7 +36,6 @@ public class World {
     // save maps
     public void Save() {
         itemMap.saveItemMap();
-        memberMap.saveMemberMap();
     }
 
     // draw item map to pixel map
@@ -74,14 +70,4 @@ public class World {
         }
     }
 
-    // draw member map to pixel map
-    private void drawMemberMap(int x, int y) {
-        try {
-            if (memberMap.map[x][y] != 0) {
-                pixelMap.changeColor(x, y, new Color(255, 0, 0));
-            }
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-    }
 }

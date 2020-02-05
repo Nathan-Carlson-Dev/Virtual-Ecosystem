@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.*;
 
 import Data.Maps.ItemMap;
-import Data.Maps.MemberMap;
 import Data.Maps.Terrain;
 import Data.Neural.AdjustmentStrategy;
 import Data.Neural.Layer;
@@ -12,11 +11,10 @@ import Data.Neural.Neural;
 
 public class Oscillator extends Prototype implements Serializable {
 
-    public Oscillator(Terrain t, ItemMap i, MemberMap m) {
+    public Oscillator(Terrain t, ItemMap i) {
 
         terrain = t;
         itemMap = i;
-        memberMap = m;
 
         x = Math.abs(randomizor.nextInt() % 930 + 10);
         y = Math.abs(randomizor.nextInt() % 580 + 10);

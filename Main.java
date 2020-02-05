@@ -31,8 +31,8 @@ class Main {
         // Updater.start();
 
         try {
-            Population p = new Population(90, new int[] { 1, 1, 1 }, true, w.terrain, w.itemMap, w.memberMap);
-            // p.Save();
+            Population p = new Population(90, new int[] { 1, 1, 1 }, true, w.terrain, w.itemMap);
+            //p.Save();
         } catch (Exception e) {
             e.printStackTrace();
         }
