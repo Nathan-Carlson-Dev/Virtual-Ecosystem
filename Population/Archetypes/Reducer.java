@@ -9,7 +9,7 @@ import Data.Neural.AdjustmentStrategy;
 import Data.Neural.Layer;
 import Data.Neural.Neural;
 
-public class Reducer extends Prototype implements Serializable {
+public class Reducer extends Prototype implements Serializable, Cloneable {
 
     public Reducer(Terrain t, ItemMap i) {
 

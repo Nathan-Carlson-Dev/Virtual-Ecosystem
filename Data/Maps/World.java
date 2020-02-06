@@ -3,6 +3,9 @@ package Data.Maps;
 import Rendering.PixelMap;
 
 import java.io.*;
+
+import Population.Population;
+
 import java.awt.*;
 
 public class World {
@@ -10,12 +13,21 @@ public class World {
     public PixelMap pixelMap;
     public ItemMap itemMap;
     public Terrain terrain;
+    public Population population;
+    public File statistics = new File(".");
+    public BufferedWriter bw;
 
     // init world
-    public World(int width, int height, PixelMap pixelMap) {
+    public World(int width, int height, PixelMap pixelMap, boolean fromSave) {
         this.pixelMap = pixelMap;
         itemMap = new ItemMap(width, height, (new File(".")).getAbsolutePath() + "/Items.dat");
         terrain = new Terrain((new File(".")).getAbsolutePath() + "/terrain.csv");
+        try {
+            population = new Population(100, new int[] { 2, 2, 2 }, fromSave, this);
+            bw = new BufferedWriter(new FileWriter(statistics.getAbsolutePath() + "/Statistics.csv"));
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 
     // update maps
@@ -23,19 +35,53 @@ public class World {
         // update maps
         itemMap.update();
 
+        if (population.members.size() > 0) {
+            // update and render population
+            population.adjustPopulation();
+
+            System.out.println("Status Report:");
+            System.out.println("Current Tick: " + population.popTick);
+            System.out.println("Current Available ID: " + population.IDIndex);
+            System.out.println("Current Size: " + population.members.size());
+            System.out.println("Age of Oldest Living Member: " + population.OldestLivingAge);
+            System.out.println("Age of Oldest Member: " + population.OldestAgeEver);
+            System.out.println("Number of Births in Tick: " + population.numReproductionTick);
+            System.out.println("Number of Births in Total: " + population.numReproductionsTotal);
+
+            try {
+                bw.append(Integer.toString(population.popTick) + "," + Integer.toString(population.IDIndex) + ","
+                        + Integer.toString(population.members.size()) + ","
+                        + Integer.toString(population.OldestLivingAge) + ","
+                        + Integer.toString(population.OldestAgeEver) + ","
+                        + Integer.toString(population.numReproductionTick) + ","
+                        + Integer.toString(population.numReproductionsTotal));
+                bw.newLine();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+
         // update pixel map
         for (int x = 0; x < 950; x++) {
             for (int y = 0; y < 600; y++) {
                 pixelMap.changeColor(x, y, Color.BLACK);
-                drawTerrain(x, y);
-                drawItemMap(x, y);
+                // drawTerrain(x, y);
+                // drawItemMap(x, y);
             }
         }
+
     }
 
     // save maps
     public void Save() {
         itemMap.saveItemMap();
+        try {
+            bw.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        // population.Save();
     }
 
     // draw item map to pixel map

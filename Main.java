@@ -17,25 +17,18 @@ class Main {
         int width = 950;
         int height = 600;
         PixelMap pixelMap = new PixelMap(width, height);
-        World w = new World(width, height, pixelMap);
-        // Renderer r = new Renderer(pixelMap, width, height, w);
-        // Thread Updater = new Thread(new Runnable() {
-        // @Override
-        // public void run() {
-        // while (true) {
-        // r.update();
-        // w.Update();
-        // }
-        // }
-        // });
-        // Updater.start();
-
-        try {
-            Population p = new Population(90, new int[] { 1, 1, 1 }, true, w.terrain, w.itemMap);
-            //p.Save();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        World w = new World(width, height, pixelMap, false);
+        Renderer r = new Renderer(pixelMap, width, height, w);
+        Thread Updater = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true) {
+                    r.update();
+                    w.Update();
+                }
+            }
+        });
+        Updater.start();
     }
 
 }

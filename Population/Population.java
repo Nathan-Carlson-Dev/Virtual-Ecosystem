@@ -10,6 +10,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import Data.Maps.ItemMap;
 import Data.Maps.Terrain;
@@ -19,6 +20,10 @@ import Population.Archetypes.*;
 public class Population {
     public List<Prototype> members = new ArrayList<Prototype>(0);
     public int IDIndex = 1;
+    public int popTick = 0;
+    public int OldestLivingAge = 0;
+    public int OldestAgeEver = 0;
+    public int numReproductionsTotal = 0, numReproductionTick = 0;
     public World world;
 
     public Population(int initSize, int[] ratio, boolean grabFromSave, World w)
@@ -52,6 +57,7 @@ public class Population {
                     if (i % ratio[0] == 0) {
                         Incrementor member = new Incrementor(t, im);
                         member.ID = IDIndex;
+                        member.birthTick = popTick;
                         members.add(member);
                         IDIndex++;
                     }
@@ -61,6 +67,7 @@ public class Population {
                     if (i % ratio[1] == 0) {
                         Reducer member = new Reducer(t, im);
                         member.ID = IDIndex;
+                        member.birthTick = popTick;
                         members.add(member);
                         IDIndex++;
                     }
@@ -70,6 +77,7 @@ public class Population {
                     if (i % ratio[2] == 0) {
                         Oscillator member = new Oscillator(t, im);
                         member.ID = IDIndex;
+                        member.birthTick = popTick;
                         members.add(member);
                         IDIndex++;
                     }
@@ -80,15 +88,39 @@ public class Population {
             }
         }
     }
-    
-    public void adjustPopulation(){
+
+    public void adjustPopulation() {
+        popTick++;
+        numReproductionTick = 0;
+        OldestLivingAge = 0;
         for (int i = 0; i < members.size(); i++) {
             Prototype p = members.get(i);
             p.move();
-            world.pixelMap.changeColor(p.x, p.y, new Color(255, 0, 0, 100));
+            if (p.livingState)
+                world.pixelMap.changeColor(p.x, p.y, new Color(255, 0, 0, 100));
+            else {
+                members.remove(i);
+            }
+            if ((new Random()).nextInt() % 20 == 1) {
+                try {
+                    Prototype child = p.reproduce();
+                    child.ID = IDIndex;
+                    child.birthTick = popTick;
+                    IDIndex++;
+                    members.add(child);
+                    numReproductionTick++;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            if (popTick - p.birthTick > OldestLivingAge)
+                OldestLivingAge = popTick - p.birthTick;
         }
+        if (OldestLivingAge > OldestAgeEver)
+            OldestAgeEver = OldestLivingAge;
+        numReproductionsTotal += numReproductionTick;
     }
-    
+
     public void Save() {
         for (int i = 0; i < members.size(); i++) {
             Prototype member = members.get(i);

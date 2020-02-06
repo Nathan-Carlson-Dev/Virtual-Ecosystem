@@ -3,7 +3,7 @@ package Data.Neural;
 import java.io.Serializable;
 import java.util.*;
 
-public class Node implements Serializable {
+public class Node implements Serializable, Cloneable {
     public double[] weights;
     public double bias = 0;
 

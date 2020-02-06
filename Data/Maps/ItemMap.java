@@ -80,7 +80,7 @@ public class ItemMap {
     public void update() {
         for (int y = 0; y < 600; y++) {
             for (int x = 0; x < 950; x++) {
-                if ((int) (Math.random() * 1000) == 1 && map[x][y] == 0)
+                if ((int) (Math.random() * 10000) == 1 && map[x][y] == 0)
                     map[x][y] = (byte) (Math.random() * 4 + 1);
             }
         }

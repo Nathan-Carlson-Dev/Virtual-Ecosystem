@@ -9,7 +9,7 @@ import Data.Neural.AdjustmentStrategy;
 import Data.Neural.Layer;
 import Data.Neural.Neural;
 
-public class Oscillator extends Prototype implements Serializable {
+public class Oscillator extends Prototype implements Serializable, Cloneable {
 
     public Oscillator(Terrain t, ItemMap i) {
 

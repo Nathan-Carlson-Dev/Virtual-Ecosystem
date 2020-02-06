@@ -2,7 +2,7 @@ package Data.Neural;
 
 import java.io.Serializable;
 
-public class Neural implements Serializable {
+public class Neural implements Serializable, Cloneable {
 
     public Layer[] layers;
 

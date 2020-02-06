@@ -9,7 +9,7 @@ import Data.Neural.AdjustmentStrategy;
 import Data.Neural.Layer;
 import Data.Neural.Neural;
 
-public class Incrementor extends Prototype implements Serializable {
+public class Incrementor extends Prototype implements Serializable, Cloneable {
 
     public Incrementor(Terrain t, ItemMap i) {
 
