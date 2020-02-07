@@ -19,6 +19,7 @@ import Population.Archetypes.*;
 
 public class Population {
     public List<Prototype> members = new ArrayList<Prototype>(0);
+    public double AgeAvg = 0;
     public int IDIndex = 1;
     public int popTick = 0;
     public int OldestLivingAge = 0;
@@ -89,19 +90,20 @@ public class Population {
         }
     }
 
-    public void adjustPopulation() {
+    public void adjustPopulation(int r, int g, int b) {
         popTick++;
         numReproductionTick = 0;
         OldestLivingAge = 0;
+        AgeAvg = 0;
         for (int i = 0; i < members.size(); i++) {
             Prototype p = members.get(i);
             p.move();
             if (p.livingState)
-                world.pixelMap.changeColor(p.x, p.y, new Color(255, 0, 0, 100));
+                world.pixelMap.changeColor(p.x, p.y, new Color(r, g, b, 100));
             else {
                 members.remove(i);
             }
-            if ((new Random()).nextInt() % 20 == 1) {
+            if ((new Random()).nextInt() % 24 == 1) {
                 try {
                     Prototype child = p.reproduce();
                     child.ID = IDIndex;
@@ -115,7 +117,9 @@ public class Population {
             }
             if (popTick - p.birthTick > OldestLivingAge)
                 OldestLivingAge = popTick - p.birthTick;
+            AgeAvg += popTick - p.birthTick;
         }
+        AgeAvg /= members.size();
         if (OldestLivingAge > OldestAgeEver)
             OldestAgeEver = OldestLivingAge;
         numReproductionsTotal += numReproductionTick;

@@ -23,7 +23,7 @@ public class World {
         itemMap = new ItemMap(width, height, (new File(".")).getAbsolutePath() + "/Items.dat");
         terrain = new Terrain((new File(".")).getAbsolutePath() + "/terrain.csv");
         try {
-            population = new Population(100, new int[] { 2, 2, 2 }, fromSave, this);
+            population = new Population(4000, new int[] { 2, 2, 2 }, fromSave, this);
             bw = new BufferedWriter(new FileWriter(statistics.getAbsolutePath() + "/Statistics.csv"));
         } catch (Exception e) {
             System.out.println(e);
@@ -37,7 +37,7 @@ public class World {
 
         if (population.members.size() > 0) {
             // update and render population
-            population.adjustPopulation();
+            population.adjustPopulation(255, 0, 0);
 
             System.out.println("Status Report:");
             System.out.println("Current Tick: " + population.popTick);
@@ -47,14 +47,14 @@ public class World {
             System.out.println("Age of Oldest Member: " + population.OldestAgeEver);
             System.out.println("Number of Births in Tick: " + population.numReproductionTick);
             System.out.println("Number of Births in Total: " + population.numReproductionsTotal);
+            System.out.println("Average Age: " + population.AgeAvg);
 
             try {
                 bw.append(Integer.toString(population.popTick) + "," + Integer.toString(population.IDIndex) + ","
                         + Integer.toString(population.members.size()) + ","
                         + Integer.toString(population.OldestLivingAge) + ","
                         + Integer.toString(population.OldestAgeEver) + ","
-                        + Integer.toString(population.numReproductionTick) + ","
-                        + Integer.toString(population.numReproductionsTotal));
+                        + Integer.toString(population.numReproductionTick) + "," + Double.toString(population.AgeAvg));
                 bw.newLine();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -75,7 +75,7 @@ public class World {
 
     // save maps
     public void Save() {
-        itemMap.saveItemMap();
+        // itemMap.saveItemMap();
         try {
             bw.close();
         } catch (Exception e) {
